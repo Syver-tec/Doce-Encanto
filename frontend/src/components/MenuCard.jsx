@@ -1,4 +1,10 @@
-function MenuCard({ product, image, name, description, price, onAddToCart }) {
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+
+import { useFavorites } from "../contexts/FavoritesContext";
+
+function MenuCard({ product, onAddToCart }) {
+  const { toggleFavorite, isFavorite } = useFavorites();
+
   return (
     <div
       className="
@@ -24,29 +30,48 @@ function MenuCard({ product, image, name, description, price, onAddToCart }) {
         "
       />
 
-      <div className="p-6">
-        <h3
+      <div
+        className="
+        absolute
+        top-4
+        right-4
+        "
+      >
+        <button
+          onClick={() => toggleFavorite(product)}
           className="
-          text-xl
-          font-bold
+          bg-white
+          p-2
+          rounded-full
+          shadow
           "
         >
-          {product.name}
-        </h3>
+          {isFavorite(product.id) ? (
+            <FaHeart
+              className="
+              text-red-500
+              text-xl
+              "
+            />
+          ) : (
+            <FaRegHeart
+              className="
+              text-gray-500
+              text-xl
+              "
+            />
+          )}
+        </button>
+      </div>
 
-        <p
-          className="
-          mt-2
-          text-gray-600
-          "
-        >
-          {product.description}
-        </p>
+      <div className="p-6">
+        <h3 className="text-xl font-bold">{product.name}</h3>
+
+        <p className="mt-2 text-gray-600">{product.description}</p>
 
         <div
           className="
           mt-6
-
           flex
           justify-between
           items-center

@@ -45,6 +45,72 @@ function MenuList() {
       price: 9.9,
       image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c",
     },
+    {
+      id: 5,
+      name: "Coxinha",
+      category: "Salgados",
+      description: "Coxinha de frango cremosa.",
+      price: 8.9,
+      image: "https://images.unsplash.com/photo-1562967916-eb82221dfb92?w=800",
+    },
+
+    {
+      id: 6,
+      name: "Empada",
+      category: "Salgados",
+      description: "Empada artesanal de frango.",
+      price: 7.9,
+      image: "https://images.unsplash.com/photo-1601050690597-df0568f70950",
+    },
+
+    {
+      id: 7,
+      name: "Pastel",
+      category: "Salgados",
+      description: "Pastel crocante recheado.",
+      price: 9.9,
+      image:
+        "https://images.unsplash.com/photo-1608039755401-742074f0548d?w=800",
+    },
+    {
+      id: 8,
+      name: "Água Mineral",
+      category: "Bebidas",
+      description: "Água mineral sem gás 500ml.",
+      price: 3.5,
+      image:
+        "https://images.unsplash.com/photo-1564419320461-6870880221ad?w=800",
+    },
+
+    {
+      id: 9,
+      name: "Pespsi",
+      category: "Bebidas",
+      description: "Refrigerante Pepsi lata 350ml.",
+      price: 6.5,
+      image:
+        "https://images.unsplash.com/photo-1629203851122-3726ecdf080e?w=800",
+    },
+
+    {
+      id: 10,
+      name: "Schweppes",
+      category: "Bebidas",
+      description: "Refrigerante Schweppes lata 350ml.",
+      price: 6.0,
+      image:
+        "https://images.unsplash.com/photo-1581006852262-e4307cf6283a?w=800",
+    },
+
+    {
+      id: 11,
+      name: "Suco de Laranja",
+      category: "Bebidas",
+      description: "Suco natural de laranja 300ml.",
+      price: 8.9,
+      image:
+        "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=800",
+    },
   ];
 
   const filteredProducts = products.filter((product) => {
@@ -124,11 +190,12 @@ function MenuList() {
           gap-4
           "
         >
-          {["Todos", "Bolos", "Cafés", "Doces", "Salgados", "Bebidas"].map((item) => (
-            <button
-              key={item}
-              onClick={() => setCategory(item)}
-              className={`
+          {["Todos", "Bolos", "Cafés", "Doces", "Salgados", "Bebidas"].map(
+            (item) => (
+              <button
+                key={item}
+                onClick={() => setCategory(item)}
+                className={`
                 px-5
                 py-2
 
@@ -136,10 +203,11 @@ function MenuList() {
 
                 ${category === item ? "bg-pink-500 text-white" : "bg-white"}
               `}
-            >
-              {item}
-            </button>
-          ))}
+              >
+                {item}
+              </button>
+            ),
+          )}
         </div>
         {/* Produtos */}
         <div
@@ -164,10 +232,11 @@ function MenuList() {
               <MenuCard
                 key={product.id}
                 product={product}
-                image={product.image}
-                name={product.name}
-                description={product.description}
-                price={product.price}
+                onAddToCart={() => {
+                  addToCart(product);
+
+                  toast.success(`${product.name} adicionado ao carrinho!`);
+                }}
               />
             ))
           )}

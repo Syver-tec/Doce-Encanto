@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
+import { useFavorites } from "../contexts/FavoritesContext";
 import axios from "axios";
 import Swal from "sweetalert2";
 
@@ -7,6 +8,8 @@ function Profile() {
   const [user, setUser] = useState(null);
 
   const [activeTab, setActiveTab] = useState("profile");
+
+  const { favorites } = useFavorites();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -284,6 +287,7 @@ function Profile() {
                 gap-3
                 "
               >
+                {/* MEU PERFIL */}
                 <button
                   onClick={() => setActiveTab("profile")}
                   className={`
@@ -305,6 +309,8 @@ function Profile() {
                   Meu Perfil
                 </button>
 
+                {/* MEUS PEDIDOS */}
+
                 <button
                   onClick={() => setActiveTab("orders")}
                   className={`
@@ -324,6 +330,22 @@ function Profile() {
                   `}
                 >
                   Meus Pedidos
+                </button>
+
+                {/* FAVORITOS */}
+
+                <button
+                  onClick={() => setActiveTab("favorites")}
+                  className={`
+                  p-3
+                  rounded-xl
+                  text-left
+                  transition-all
+
+                  ${activeTab === "favorites" ? "bg-pink-500 text-white" : "hover:bg-pink-100"}
+                  `}
+                >
+                  Favoritos
                 </button>
 
                 <button
@@ -618,6 +640,84 @@ function Profile() {
                       ))
                     )}
                   </div>
+                </>
+              )}
+
+              {/* FAVORITOS */}
+
+              {activeTab === "favorites" && (
+                <>
+                  <h3
+                    className="
+                    text-3xl
+                    font-bold
+                    mb-8
+                    "
+                  >
+                    Produtos Favoritos
+                  </h3>
+
+                  {favorites.length === 0 ? (
+                    <div
+                      className="
+                      bg-pink-50
+                      p-6
+                      rounded-2xl
+                      "
+                    >
+                      Você ainda não possui produtos favoritos.
+                    </div>
+                  ) : (
+                    <div
+                      className="
+                      grid
+                      gap-6
+                      md:grid-cols-2
+                      "
+                    >
+                      {favorites.map((product) => (
+                        <div
+                          key={product.id}
+                          className="
+                          border
+                          rounded-2xl
+                          p-4
+                          flex
+                          gap-4
+                          "
+                        >
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="
+                            w-24
+                            h-24
+                            rounded-xl
+                            object-cover
+                            "
+                          />
+
+                          <div>
+                            <h4 className="font-bold">{product.name}</h4>
+
+                            <p className="text-gray-500">
+                              {product.description}
+                            </p>
+
+                            <p
+                              className="
+                              mt-2
+                              font-semibold
+                              text-pink-600
+                              "
+                            >
+                              R$ {product.price.toFixed(2)}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </>
               )}
 
