@@ -1,8 +1,4 @@
-function MenuCard({
-  product,
-  onAddToCart,
-}) {
-
+function MenuCard({ product, image, name, description, price, onAddToCart }) {
   return (
     <div
       className="
