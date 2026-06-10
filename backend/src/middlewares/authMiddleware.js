@@ -7,7 +7,7 @@ module.exports = (req, res, next) => {
 
     if (!authHeader) {
       return res.status(401).json({
-        message: "Token não enviado",
+        message: `Token não enviado`,
       });
     }
 
@@ -24,6 +24,7 @@ module.exports = (req, res, next) => {
     next();
 
   } catch (error) {
+    console.error(error);
     return res.status(401).json({
       message: "Token inválido",
     });

@@ -43,6 +43,9 @@ exports.login = async (req, res) => {
         id: user.id,
         name: user.name,
         email: user.email,
+        phone: user.phone,
+        city: user.city,
+        profile_image: user.profile_image,
       },
     });
   } catch (error) {
@@ -84,7 +87,8 @@ exports.me = async (req, res) => {
           name,
           email,
           phone,
-          city
+          city,
+          profile_image
         FROM users
         WHERE id = ?
         `,
@@ -125,6 +129,32 @@ exports.updateProfile = async (req, res) => {
 
     res.json({
       message: "Perfil atualizado com sucesso",
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+exports.uploadProfileImage = async (req, res) => {
+  try {
+    const imagePath =
+      `http://localhost:5000/uploads/${req.file.filename}`;
+
+    await pool.query(
+      `
+      UPDATE users
+      SET profile_image = ?
+      WHERE id = ?
+      `,
+      [imagePath, req.user.id]
+    );
+
+    res.json({
+      image: imagePath,
     });
   } catch (error) {
     console.error(error);

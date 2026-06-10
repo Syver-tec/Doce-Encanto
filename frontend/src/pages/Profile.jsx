@@ -11,6 +11,37 @@ function Profile() {
 
   const { favorites } = useFavorites();
 
+  const handlePhotoUpload = async (e) => {
+    try {
+      const file = e.target.files[0];
+
+      if (!file) return;
+
+      const formData = new FormData();
+
+      formData.append("photo", file);
+
+      const token = localStorage.getItem("token");
+
+      const response = await axios.post(
+        "http://localhost:5000/auth/upload-photo",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setUser({
+        ...user,
+        profile_image: response.data.image,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -251,7 +282,42 @@ function Profile() {
                 font-bold
                 "
               >
-                {user?.name?.charAt(0)}
+                {user?.profile_image ? (
+                  <img
+                    src={user.profile_image}
+                    alt="Perfil"
+                    className="
+                    w-28
+                    h-28
+                    rounded-full
+                    object-cover
+                    mx-auto
+                    "
+                  />
+                ) : (
+                  <div
+                    className="
+                    w-28
+                    h-28
+
+                    rounded-full
+
+                    bg-pink-500
+
+                    flex
+                    items-center
+                    justify-center
+
+                    text-white
+                    text-4xl
+                    font-bold
+
+                    mx-auto
+                    "
+                  >
+                    {user?.name?.charAt(0)}
+                  </div>
+                )}
               </div>
 
               <h2
@@ -736,6 +802,24 @@ function Profile() {
                   </h3>
 
                   <div className="space-y-5">
+                    <div>
+                      <label className="block mb-2 font-medium">
+                        Foto de Perfil
+                      </label>
+
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handlePhotoUpload}
+                        className="
+                        w-full
+                        border
+                        rounded-xl
+                        p-3
+                        "
+                      />
+                    </div>
+
                     <div>
                       <label className="block mb-2 font-medium">Nome</label>
 

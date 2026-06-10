@@ -6,14 +6,18 @@ const authController = require("../controllers/authController");
 
 const authMiddleware = require("../middlewares/authMiddleware");
 
+const upload = require("../middlewares/uploadMiddleware");
+
 router.post("/register", authController.register);
 
 router.post("/login", authController.login);
 
-router.post("/register", authController.register);
-router.post("/login", authController.login);
-
-router.get("/me", authMiddleware, authController.me);
+router.post(
+  "/upload-photo",
+  authMiddleware,
+  upload.single("photo"),
+  authController.uploadProfileImage,
+);
 
 router.get("/me", authMiddleware, authController.me);
 
