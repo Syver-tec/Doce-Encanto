@@ -39,7 +39,7 @@ function Cart() {
       }
 
       await axios.post(
-        "http://localhost:5000/orders",
+        "https://doce-encanto-0vow.onrender.com/orders",
         {
           total,
           items: cartItems,
